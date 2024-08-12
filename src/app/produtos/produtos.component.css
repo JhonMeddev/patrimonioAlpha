@@ -1,0 +1,18 @@
+.table-body-scroll {
+  display: block;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+
+.table-body-scroll tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.table thead, .table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}

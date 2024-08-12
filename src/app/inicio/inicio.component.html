@@ -1,0 +1,52 @@
+<app-menu></app-menu>
+  <body class="vh-100 bg-secondary">
+
+    <!--LOGIN -->
+    <div class="container d-flex justify-content-center align-items-center min-vh-100" *ngIf='!auth.logado()'>
+      <div class="card shadow-sm p-4" style="max-width: 400px; width: 100%;">
+        <h2 class="text-center mb-4">Login</h2>
+        <form>
+          <div class="mb-3">
+            <label for="username" class="form-label">Usuário</label>
+            <input type="text" class="form-control" id="username" placeholder="Digite seu CPF ou CNPJ" name="taxNumber" [(ngModel)]='login.taxNumber' required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="password" placeholder="Digite sua senha" name="password" [(ngModel)]='login.password' required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100" (click)="entrar()">Entrar</button>
+        </form>
+      </div>
+    </div>
+    <!--LOGIN -->
+
+    <!--PRODUTOS-->
+
+    <div class="container d-flex justify-content-center align-items-center min-vh-100" *ngIf='auth.logado()'>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let item of listaPrudutos'>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <!--PRODUTOS-->
+
+  </body>
+<app-rodape></app-rodape>
+
+

@@ -1,0 +1,32 @@
+<app-menu></app-menu>
+<body class="vh-100 bg-secondary">
+  <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow-sm p-4" style="max-width: 500px; width: 100%;">
+      <h2 class="text-center mb-4">Cadastro</h2>
+      <form>
+        <div class="mb-3">
+          <label for="nomeUsuario" class="form-label">Nome do Usuário</label>
+          <input type="text" class="form-control" id="nomeUsuario" placeholder="Digite seu nome" required [(ngModel)]="newUser.name" name="name">
+        </div>
+        <div class="mb-3">
+          <label for="cpfCnpj" class="form-label">CPF ou CNPJ</label>
+          <input type="text" class="form-control" id="cpfCnpj" placeholder="Digite seu CPF ou CNPJ" required [(ngModel)]="newUser.taxNumber" name="taxNumber">
+        </div>
+        <div class="mb-3">
+          <label for="emailUsuario" class="form-label">E-mail do Usuário</label>
+          <input type="email" class="form-control" id="emailUsuario" placeholder="Digite seu e-mail" required [(ngModel)]="newUser.mail" name="mail">
+        </div>
+        <div class="mb-3">
+          <label for="telefoneUsuario" class="form-label">Telefone do Usuário</label>
+          <input type="tel" class="form-control" id="telefoneUsuario" placeholder="Digite seu telefone" required [(ngModel)]="newUser.phone" name="phone">
+        </div>
+        <div class="mb-3">
+          <label for="senhaUsuario" class="form-label">Senha do Usuário</label>
+          <input type="password" class="form-control" id="senhaUsuario" placeholder="Digite sua senha" required [(ngModel)]="newUser.password" name="password">
+        </div>
+        <button type="submit" class="btn btn-primary w-100" (click)="createUser()">Cadastrar</button>
+      </form>
+    </div>
+  </div>
+</body>
+<app-rodape></app-rodape>

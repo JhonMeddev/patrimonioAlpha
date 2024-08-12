@@ -1,0 +1,149 @@
+<app-menu-user></app-menu-user>
+  <body class="vh-100 bg-secondary">
+
+    <!--PRODUTOS-->
+
+    <div class="container d-flex flex-column min-vh-100 pt-5" *ngIf='auth.logado()'>
+
+      <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#adicionarProdutoModal" (click)="resetForm()">Adicionar Novo Item</button>
+      </div>
+
+      <table class="table table-striped-columns">
+        <thead>
+          <tr>
+            <th scope="col-md-1">#</th>
+            <th scope="col-md-1">Item</th>
+            <th scope="col-md-4">Descrição</th>
+            <th scope="col-md-1">Preço</th>
+            <th scope="col-md-3">Quantidade</th>
+            <th scope="col-md-1"></th>
+          </tr>
+        </thead>
+        <tbody class="table-body-scroll">
+          <tr *ngFor='let item of listaPrudutos.data.products.slice().reverse()'>
+            <th scope="row">{{item.id}}</th>
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td>{{ item.price | currency:'BRL':'symbol':'1.2-2' }}</td>
+            <td>{{item.stock}}</td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-primary me-3" data-bs-toggle="modal" (click)="editarProduto(item.id)">Editar</button>
+              <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#apagarModal" (click)="verificarApagar(item.id)">Apagar</button>
+
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <!--PRODUTOS-->
+
+    <!--MODAL APAGAR -->
+    <div class="modal fade" id="apagarModal" tabindex="-1" aria-labelledby="apagarModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="apagarModalLabel"></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" >
+            <p id="apagarModalBody"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" (click)="apagarProduto(idProdutoApagado)" data-bs-dismiss="modal">Sim</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--MODAL APAGAR -->
+
+    <!--  Modal criar Produto -->
+    <div class="modal fade" id="adicionarProdutoModal" tabindex="-1" aria-labelledby="adicionarProdutoModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="adicionarProdutoModalLabel">
+              Adicionar Novo Produto
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="produtoNome" class="form-label">Produto</label>
+                <input [(ngModel)]="postProduto.name" type="text" id="produtoNome" class="form-control" name="name" required>
+              </div>
+              <div class="mb-3">
+                <label for="produtoDescricao" class="form-label">Descrição</label>
+                <textarea [(ngModel)]="postProduto.description" id="produtoDescricao" class="form-control" name="description" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="produtoPreco" class="form-label">Preço</label>
+                <input [(ngModel)]="postProduto.price"  type="number" id="produtoPreco" class="form-control" name="price" required>
+              </div>
+              <div class="mb-3">
+                <label for="produtoEstoque" class="form-label">Quantidade em Estoque</label>
+                <input [(ngModel)]="postProduto.stock" type="number" id="produtoEstoque" class="form-control" name="stock" required>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" (click)="postProduct()">
+                  Adicionar Produto
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal criar Produto -->
+
+    <!--  Modal editar Produto -->
+    <div class="modal fade" id="editarProdutoModal" tabindex="-1" aria-labelledby="editarProdutoModalLabel" aria-hidden="true" *ngIf="produto.data?.product?.id != null">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editarProdutoModalLabel">
+              Editar Produto #{{produto.data.product.id}}
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="produtoNome" class="form-label">Produto: {{produto.data.product.name}}</label>
+                <input [(ngModel)]="postProduto.name" type="text" id="editProdutoNome" class="form-control" name="name" required>
+              </div>
+              <div class="mb-3">
+                <label for="produtoDescricao" class="form-label">Descrição: {{produto.data.product.description}}</label>
+                <textarea [(ngModel)]="postProduto.description" id="editProdutoDescricao" class="form-control" name="description" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="produtoPreco" class="form-label">Preço: {{produto.data.product.price | currency:'BRL':'symbol':'1.2-2'}} </label>
+                <input [(ngModel)]="postProduto.price"  type="number" id="editProdutoPreco" class="form-control" name="price" required>
+              </div>
+              <div class="mb-3">
+                <label for="produtoEstoque" class="form-label">Quantidade em Estoque: {{produto.data.product.stock}}</label>
+                <input [(ngModel)]="postProduto.stock" type="number" id="editProdutoEstoque" class="form-control" name="stock" required>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" (click)="editarConfirm(produto.data.product.id)">
+                  Editar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal editar Produto -->
+
+</body>
+<app-rodape></app-rodape>
+
+
